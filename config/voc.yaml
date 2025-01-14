@@ -1,1 +1,53 @@
+project_name: test
 
+model:
+  backbone: mit_b1
+  stride: [4, 2, 2, 1]
+  pretrained: True
+  encoder_embed_dim: 72
+  decoder_embedding_dim: 256
+
+dataset:
+  data_root: /.../....../.../PFA/datasets #dataset path
+  label_path: ScribbleLabels # label path
+  train_data_list: train.txt
+  val_data_list: val.txt
+  batch_size: 12
+  num_workers: 2
+  shuffle: True
+  pin_memory: True
+  num_classes: 21
+  crop_size: 320
+  ignore_label: 255
+
+prototype:
+  global_num: 10
+  update_rate: 0.99
+  dim: 256
+  use_epoch: 30
+
+work_dir:
+  dir: work_dir_voc
+  ckpt_dir: weights/checkpoints
+  pre_weight: weights/pretrained
+
+train:
+  gpu_ids: [0]
+  epoch: 200
+
+optimizer:
+  learning_rate: 6e-5
+  betas: [0.9, 0.999]
+  weight_decay: 0.01
+  lr_policy: linear
+
+class_threshold: 100
+loss:
+  without: 1
+  local:
+    pce_local: 1
+    con_local: 0.02
+  global_:
+    pce_global: 1
+    con_local: 0.01
+    con_global: 0.01
